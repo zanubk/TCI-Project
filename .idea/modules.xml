@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ WebCrawlerProject.iml" filepath="$PROJECT_DIR$/.idea/modules/ WebCrawlerProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/_WebCrawlerProject.iml" filepath="$PROJECT_DIR$/.idea/modules/_WebCrawlerProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/_WebCrawlerProject_main.iml" filepath="$PROJECT_DIR$/.idea/modules/_WebCrawlerProject_main.iml" group="_WebCrawlerProject" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/_WebCrawlerProject_test.iml" filepath="$PROJECT_DIR$/.idea/modules/_WebCrawlerProject_test.iml" group="_WebCrawlerProject" />
+    </modules>
+  </component>
+</project>
