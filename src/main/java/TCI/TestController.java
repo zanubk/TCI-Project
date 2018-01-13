@@ -25,6 +25,15 @@ public class TestController {
         return userJson;
 
     }
+    @RequestMapping("/Find")
+    public @ResponseBody String Find(@RequestParam(value="name", defaultValue="Office Space") String name) throws IOException {
 
+        spider.GetAllLinks("http://i298537.hera.fhict.nl/TCI/index.php");
+        SearchedItemLine item = spider.GetBySearch(name);
+        Gson gson = new Gson();
+        String userJson = gson.toJson(item);
+        //String body = genson.serialize(bookLine);
+        return userJson;
+    }
 
 }
