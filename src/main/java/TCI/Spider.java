@@ -272,6 +272,9 @@ public class Spider {
             Movie movie = new Movie();
             Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
             Document htmlDocument = connection.get();
+            Elements h1 = htmlDocument.getElementsByClass("media-details");
+            Elements title = h1.select("h1");
+            movie.setName(title.text());
             Elements table = htmlDocument.select("table");
             Elements rows = table.select("tr");
             for (int i = 0; i < rows.size(); i++) {
@@ -293,10 +296,13 @@ public class Spider {
                     movie.setDirector(tr.text());
                 }
                 if (th.text().equals("Writers")) {
-                    movie.setWriters(tr.text());
+                    String[] writers = tr.text().split(",");
+
+                    movie.setWriters(writers);
                 }
                 if (th.text().equals("Stars")) {
-                    movie.setStars(tr.text());
+                    String[] stars = tr.text().split(",");
+                    movie.setStars(stars);
                 }
 
             }
@@ -312,6 +318,9 @@ public class Spider {
             Book book = new Book();
             Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
             Document htmlDocument = connection.get();
+            Elements h1 = htmlDocument.getElementsByClass("media-details");
+            Elements title = h1.select("h1");
+            book.setName(title.text());
             Elements table = htmlDocument.select("table");
             Elements rows = table.select("tr");
             for (int i = 0; i < rows.size(); i++) {
@@ -323,6 +332,9 @@ public class Spider {
                 if (th.text().equals("Genre")) {
                     book.setGenre(tr.text());
                 }
+                if (th.text().equals("Genre")) {
+                    book.setGenre(tr.text());
+                }
                 if (th.text().equals("Format")) {
                     book.setFormat(tr.text());
                 }
@@ -330,7 +342,8 @@ public class Spider {
                     book.setYear(tr.text());
                 }
                 if (th.text().equals("Authors")) {
-                    book.setAuthor(tr.text());
+                    String[] books = tr.text().split(",");
+                    book.setAuthor(books);
                 }
                 if (th.text().equals("Publisher")) {
                     book.setPublisher(tr.text());
@@ -352,6 +365,9 @@ public class Spider {
             Music music = new Music();
             Connection connection = Jsoup.connect(url).userAgent(USER_AGENT);
             Document htmlDocument = connection.get();
+            Elements h1 = htmlDocument.getElementsByClass("media-details");
+            Elements title = h1.select("h1");
+            music.setName(title.text());
             Elements table = htmlDocument.select("table");
             Elements rows = table.select("tr");
             for (int i = 0; i < rows.size(); i++) {

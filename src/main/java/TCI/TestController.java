@@ -21,7 +21,6 @@ public class TestController {
         MusicMovieBookLine bookLine = spider.GetAll();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String userJson = gson.toJson(bookLine);
-
         return userJson;
 
     }
@@ -32,7 +31,6 @@ public class TestController {
         SearchedItemLine item = spider.GetBySearch(name);
         Gson gson = new Gson();
         String userJson = gson.toJson(item);
-        //String body = genson.serialize(bookLine);
         return userJson;
     }
 

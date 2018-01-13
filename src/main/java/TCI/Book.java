@@ -2,12 +2,21 @@ package TCI;
 
 public class Book {
 
+    private  String name;
     private String genre;
     private String format;
     private String year;
-    private String author;
+    private String[] author;
     private String publisher;
     private String isbn;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getGenre() {
         return genre;
@@ -33,11 +42,11 @@ public class Book {
         this.year=year;
     }
 
-    public String getAuthor() {
+    public String[] getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(String[] author) {
         this.author = author;
     }
 
@@ -61,8 +70,9 @@ public class Book {
     {
 
     }
-    public Book(String genre, String format, String year, String auth, String pub, String isb)
+    public Book(String name, String genre, String format, String year, String[] auth, String pub, String isb)
     {
+        setName(name);
 setGenre(genre);
 setFormat(format);
 setYear(year);

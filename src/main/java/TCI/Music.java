@@ -2,12 +2,20 @@ package TCI;
 
 public class Music {
 
+    private  String name;
     private String genre;
     private String format;
     private String year;
     private String artist;
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getGenre() {
         return genre;
     }

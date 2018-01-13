@@ -1,13 +1,23 @@
 package TCI;
 
+import java.util.List;
+
 public class Movie {
+    private  String name;
     private String genre;
     private String format;
     private String year;
     private String director;
-    private String writers;
-    private String stars;
+    private String[] writers;
+    private String[] stars;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     public String getGenre() {
         return genre;
     }
@@ -40,19 +50,19 @@ public class Movie {
         this.director = author;
     }
 
-    public String getWriters() {
+    public String[] getWriters() {
         return writers;
     }
 
-    public void setWriters(String writers) {
+    public void setWriters(String[]  writers) {
         this.writers = writers;
     }
 
-    public String getStars() {
+    public String[] getStars() {
         return stars;
     }
 
-    public void setStars(String stars) {
+    public void setStars(String[] stars) {
         this.stars = stars;
     }
 
@@ -60,8 +70,9 @@ public class Movie {
 
     public Movie()
     {}
-    public Movie(String genre, String format, String year, String dir, String wri, String sta)
+    public Movie(String name, String genre, String format, String year, String dir, String[]  wri, String sta[])
     {
+        setName(name);
         setGenre(genre);
         setFormat(format);
         setYear(year);
