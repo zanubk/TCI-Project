@@ -89,7 +89,7 @@ private CrawlInformation crawlInformation;
     {
 
 
-        return $($("No Fences",18),$("Forrest Gump",9),$("The Clean Coder: A Code of Conduct for Professional Programmers",3));
+        return $($("No Fences",14),$("Forrest Gump",7),$("The Clean Coder: A Code of Conduct for Professional Programmers",3));
 
 
 
@@ -137,6 +137,7 @@ private CrawlInformation crawlInformation;
         }
         assertTrue(formats.contains(bookformat));
     }
+
     @Test
     @Parameters(method = "getMoviesDirector")
     public  void testIfMovieListFilledExactlyWithMovies(String movieDirector) throws IOException {
@@ -176,10 +177,53 @@ private CrawlInformation crawlInformation;
 
     }
 
-  @Test
+    @Test
+    public void testIfSetTimeMethodIsCalled() throws IOException {
+
+        MusicMovieBookLine bookLine = mock(MusicMovieBookLine.class);
+        bookLine.setTime_elapse(12,13);
+        verify(bookLine, atLeast(1)).setTime_elapse(12,13);
+
+    }
+
+    @Test
+    public void testIfCorrectBookHasBeenFetchedFromID102() throws IOException {
+        Book mockBook = mock(Book.class);
+        when(mockBook.getIsbn()).thenReturn("978-0132350884");
+        Book actualBook = spider.GetBook("http://i298537.hera.fhict.nl/TCI/details.php?id=102");
+        assertEquals(mockBook.getIsbn(),actualBook.getIsbn());
+    }
+    @Test
+    public void testIfCorrectMovieHasBeenFetchedFromID201() throws IOException {
+        Movie mockMovie = mock(Movie.class);
+        when(mockMovie.getDirector()).thenReturn("Robert Zemeckis");
+        Movie actualMovie = spider.GetMovie("http://i298537.hera.fhict.nl/TCI/details.php?id=201");
+        assertThat("Is Not Null ",actualMovie,not(is(nullValue())));
+
+        assertThat("Same Directors Means Same movies ",actualMovie.getDirector(),is(mockMovie
+                .getDirector()));
+
+    }
+    @Test(expected = NullPointerException.class)
+    public void  testIfNullPointerExceptionThrownWithNullCrawlInformation() throws IOException {
+        SearchedItemLine searchedItem = spider.GetBySearch("Forrest Gump");
+
+
+    }
+
+    @Test
+    public void  testIfSearchForWorks() throws IOException {
+
+        boolean exists = spider.searchForWord("Forrest Gump","http://i298537.hera.fhict.nl/TCI/details.php?id=201");
+        boolean NotExists = spider.searchForWord("Elvis Forever","http://i298537.hera.fhict.nl/TCI/details.php?id=303");
+        assertEquals(true,exists);
+        assertEquals(false,NotExists);
+
+    }
+    @Test
     public void testIfFoundMusicOnGivingMusicName() throws IOException {
-       SearchedItemLine searchedItemLine= spiderWithCrawlInfo.GetBySearch("The Very Thought of You");
-      assertThat(searchedItemLine.getFounditem(), instanceOf(Music.class));
+        SearchedItemLine searchedItemLine= spiderWithCrawlInfo.GetBySearch("The Very Thought of You");
+        assertThat(searchedItemLine.getFounditem(), instanceOf(Music.class));
 
     }
 
@@ -223,6 +267,5 @@ private CrawlInformation crawlInformation;
         spiderWithCrawlInfo.GetBySearch(name);
         assertEquals(i,crawlInformation.GetEXplorer());
     }
-
 
 }
