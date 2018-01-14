@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
 
 
 public class Spider {
+    CrawlInformation crawl;
 
     public int numberofvisitedpages = 0;
     public int Currentdepth = 0;
@@ -27,8 +28,13 @@ public class Spider {
     private final AtomicLong counter = new AtomicLong();
 
 
+    public Spider(CrawlInformation c) {
+        Links = new ArrayList<>();
+        crawl =c;
+    }
     public Spider() {
         Links = new ArrayList<>();
+        crawl =null;
     }
 
     public List<String> getLinks() {
@@ -75,9 +81,10 @@ public class Spider {
                 Connection connection = Jsoup.connect(link);
                 Document htmlDocument = connection.get();
                 Elements linksOnPage = htmlDocument.select("a[href]");
-                pageTovisit = linksOnPage.size();
+                pageTovisit = linksOnPage.size()-2;
                 visitedpage = 6;
                 Currentdepth++;
+                numberofvisitedpages++;
                 for (Element sub : linksOnPage) {
                     subLinks.add(sub.absUrl("href"));
                 }
@@ -102,9 +109,10 @@ public class Spider {
                 Connection connection = Jsoup.connect(link);
                 Document htmlDocument = connection.get();
                 Elements linksOnPage = htmlDocument.select("a[href]");
-                pageTovisit = linksOnPage.size();
+                pageTovisit = linksOnPage.size()-2;
                 visitedpage = 6;
                 Currentdepth++;
+                numberofvisitedpages++;
                 for (Element sub : linksOnPage) {
                     subLinks.add(sub.absUrl("href"));
                 }
@@ -131,9 +139,10 @@ public class Spider {
                 Connection connection = Jsoup.connect(link);
                 Document htmlDocument = connection.get();
                 Elements linksOnPage = htmlDocument.select("a[href]");
-                pageTovisit = linksOnPage.size();
+                pageTovisit = linksOnPage.size()-2;
                 visitedpage = 6;
                 Currentdepth++;
+                numberofvisitedpages++;
                 for (Element sub : linksOnPage) {
                     subLinks.add(sub.absUrl("href"));
                 }
@@ -165,7 +174,10 @@ public class Spider {
         bookLine.setTime_elapse(start_Time, end_Time);
         bookLine.setId(counter.incrementAndGet());
         System.out.println(PreviousDepth);
-
+        if(crawl!=null)
+        {crawl.SetDepth(PreviousDepth);
+            crawl.SetExplorer(numberofvisitedpages);
+            crawl.setTime_elapse(start_Time,end_Time);}
         numberofvisitedpages=0;
         PreviousDepth=0;
 
@@ -173,10 +185,10 @@ public class Spider {
     }
 
 
+
     public SearchedItemLine GetBySearch(String searchWord) throws IOException {
 
-
-        {
+        if(crawl!=null) {
             List<String> subLinks = new ArrayList<>();
             SearchedItemLine searchedItemLine = null;
             int pageTovisit = 0;
@@ -186,7 +198,7 @@ public class Spider {
             for (String link : Links) {
                 if (link.endsWith("?cat=books") || link.endsWith("?cat=movies") || link.endsWith("?cat=music")) {
                     Elements linksOnPage = GetSubLinks(link);
-                    pageTovisit = linksOnPage.size();
+                    pageTovisit = linksOnPage.size()-2;
                     visitedpage = 6;
                     numberofvisitedpages++;
 
@@ -214,7 +226,9 @@ public class Spider {
                                 searchedItemLine.setTime_elapse(start_Time, end_Time);
                                 PreviousDepth = Currentdepth;
                                 Currentdepth = 0;
-
+                                crawl.SetExplorer(numberofvisitedpages);
+                                crawl.SetDepth(PreviousDepth);
+                                crawl.setTime_elapse(start_Time, end_Time);
                                 numberofvisitedpages = 0;
                                 return searchedItemLine;
                             } else {
@@ -225,7 +239,9 @@ public class Spider {
                                     searchedItemLine.setId(counter.incrementAndGet());
                                     end_Time = System.nanoTime();
                                     searchedItemLine.setTime_elapse(start_Time, end_Time);
-
+                                    crawl.setTime_elapse(start_Time, end_Time);
+                                    crawl.SetExplorer(numberofvisitedpages);
+                                    crawl.SetDepth(Currentdepth);
                                     numberofvisitedpages = 0;
                                     Currentdepth = 0;
                                     return searchedItemLine;
@@ -238,7 +254,9 @@ public class Spider {
                                         searchedItemLine.setId(counter.incrementAndGet());
                                         end_Time = System.nanoTime();
                                         searchedItemLine.setTime_elapse(start_Time, end_Time);
-
+                                        crawl.setTime_elapse(start_Time, end_Time);
+                                        crawl.SetExplorer(numberofvisitedpages);
+                                        crawl.SetDepth(Currentdepth);
                                         numberofvisitedpages = 0;
                                         Currentdepth = 0;
                                         return searchedItemLine;
@@ -258,7 +276,10 @@ public class Spider {
 
             }
         }
-
+        else
+        {
+            throw new NullPointerException();
+        }
 
         return null;
 
