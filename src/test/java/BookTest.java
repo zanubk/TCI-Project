@@ -14,7 +14,8 @@ public class BookTest {
     @Test
     public void IfBookNameSetAndGet()
     {
-
+       book.setName("BookName");
+       Assert.assertEquals("BookName",book.getName());
     }
 
     @Test

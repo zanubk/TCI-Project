@@ -14,6 +14,8 @@ public class MusicTest {
     @Test
     public void IfMusicNameSetAndGet()
     {
+        music.setName("MusicName");
+        Assert.assertEquals("MusicName",music.getName());
 
     }
 
