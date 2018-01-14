@@ -24,12 +24,17 @@ import static org.mockito.Mockito.mock;
 public class SpiderTest {
     private MusicMovieBookLine mockMBMLine;
     private  Spider spider;
+private  Spider spiderWithCrawlInfo ;
+private CrawlInformation crawlInformation;
 
     @Before
     public void setup() throws IOException {
-        spider = new Spider();
-        mockMBMLine = mock(MusicMovieBookLine.class);
-         spider.GetAllLinks("http://i298537.hera.fhict.nl/TCI/index.php");
+      spider = new Spider();
+    mockMBMLine = mock(MusicMovieBookLine.class);
+    crawlInformation = mock(CrawlInformation.class);
+    spiderWithCrawlInfo = new Spider(crawlInformation);
+    spider.GetAllLinks("http://i298537.hera.fhict.nl/TCI/index.php");
+    spiderWithCrawlInfo.GetAllLinks("http://i298537.hera.fhict.nl/TCI/index.php");
          }
 
 
@@ -79,6 +84,15 @@ public class SpiderTest {
                 ,{"Garth Brooks"}
                 ,{"Nat King Cole"}
         };
+    }
+ private static final Object[] getItemsToSearchFor()
+    {
+
+
+        return $($("No Fences",18),$("Forrest Gump",9),$("The Clean Coder: A Code of Conduct for Professional Programmers",3));
+
+
+
     }
 
     @Test
@@ -162,7 +176,53 @@ public class SpiderTest {
 
     }
 
+  @Test
+    public void testIfFoundMusicOnGivingMusicName() throws IOException {
+       SearchedItemLine searchedItemLine= spiderWithCrawlInfo.GetBySearch("The Very Thought of You");
+      assertThat(searchedItemLine.getFounditem(), instanceOf(Music.class));
 
+    }
+
+    @Test
+    public void testIfFoundCorrectMovie() throws IOException {
+        SearchedItemLine searchedItemLine= spiderWithCrawlInfo.GetBySearch("The Princess Bride");
+        assertEquals("Rob Reiner",((Movie)searchedItemLine.getFounditem()).getDirector());
+
+    }
+    @Test
+    public void testIfCrawlInformationGetsTimeElapsed() throws IOException {
+
+        when(crawlInformation.getTime_elapse()).thenCallRealMethod();
+        doCallRealMethod().when(crawlInformation).setTime_elapse(Mockito.anyLong(),Mockito.anyLong());
+        spiderWithCrawlInfo.GetBySearch("Elvis Forever");
+        assertNotEquals(0,crawlInformation.getTime_elapse());
+
+    }
+
+
+    @Test
+    public void testIfCrawlInformationGetsCorrectPageDepth() throws IOException {
+
+        when(crawlInformation.GetDepth()).thenCallRealMethod();
+        doCallRealMethod().when(crawlInformation).SetExplorer(Mockito.anyInt());
+        spiderWithCrawlInfo.GetBySearch("No Fences");
+        assertNotEquals(2,crawlInformation.GetDepth());
+
+    }
+
+
+
+
+
+
+    @Test
+    @Parameters(method="getItemsToSearchFor")
+    public void   testIfCrawlInformationGetsCorrectPageExplored(String name, int i) throws IOException {
+        when(crawlInformation.GetEXplorer()).thenCallRealMethod();
+        doCallRealMethod().when(crawlInformation).SetExplorer(Mockito.anyInt());
+        spiderWithCrawlInfo.GetBySearch(name);
+        assertEquals(i,crawlInformation.GetEXplorer());
+    }
 
 
 }
