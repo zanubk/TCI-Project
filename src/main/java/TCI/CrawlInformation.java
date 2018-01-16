@@ -11,13 +11,22 @@ public class CrawlInformation {
         return Explorer;
     }
     public void SetExplorer(int e)
-    {Explorer = e;}
+    {
+        if(e<0){ throw new IllegalArgumentException(); }
+        else
+        { Explorer = e;}
+    }
     public int GetDepth()
     {
         return Depth;
     }
     public void SetDepth(int d)
-    {Depth = d;}
+    {
+        if(d<0) {throw new IllegalArgumentException();}
+        else
+        {
+        Depth = d;}
+    }
     public String  getTime_elapse() {
         return time_elapse;
     }
