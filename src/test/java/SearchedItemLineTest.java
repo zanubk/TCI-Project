@@ -49,7 +49,7 @@ public class SearchedItemLineTest {
         Book mockbk = mock(Book.class);
         searchedItemLine = new SearchedItemLine(mockbk);
         searchedItemLine.setId(1);
-        assertEquals(1,searchedItemLine.getId());
+        assertEquals(2,searchedItemLine.getId());
     }
 }
 
