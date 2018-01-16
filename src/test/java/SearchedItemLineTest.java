@@ -48,7 +48,7 @@ public class SearchedItemLineTest {
     {
         Book mockbk = mock(Book.class);
         searchedItemLine = new SearchedItemLine(mockbk);
-        searchedItemLine.setId(1);
+        searchedItemLine.setId(4);
         assertEquals(2,searchedItemLine.getId());
     }
 }
