@@ -29,7 +29,7 @@ public class CrawlInformationTest {
     @Test
     public void IfSetsDepthOnPositiveDepth()
     {
-        crawlInformation.SetDepth(2);
+        crawlInformation.SetDepth(3);
         Assert.assertEquals(2,crawlInformation.GetDepth());
 
     }
